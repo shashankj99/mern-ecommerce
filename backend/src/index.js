@@ -11,6 +11,7 @@ const mongoose = require('mongoose');
 
 // routes
 const authRoutes = require('./routes/auth');
+const adminRoutes = require('./routes/admin/auth');
 
 // bootstrap the server
 const app = express();
@@ -38,6 +39,7 @@ app.use(bodyParser.json());
 
 // add /api prefix to the routes
 app.use('/api', authRoutes);
+app.use('/api', adminRoutes);
 
 // listen to the port
 app.listen(process.env.PORT, () => {

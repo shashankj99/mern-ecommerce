@@ -1,8 +1,8 @@
-const User = require('../models/user');
+const User = require('../../models/user');
 const jwt = require('jsonwebtoken');
 
 /**
- * Method to register a new user
+ * Method to register a new admin
  * @param req
  * @param res
  */
@@ -13,7 +13,7 @@ exports.register = (req, res) => {
             // if exists return error with the required message
             if (user)
                 return res.status(400).json({
-                    message: 'User already Exists...!'
+                    message: 'Admin already Exists...!'
                 });
 
             // destructure the request body
@@ -22,7 +22,8 @@ exports.register = (req, res) => {
             // create a new user instance
             const _user = new User({
                 firstName, lastName, email, password,
-                username: lastName + '_' + firstName
+                username: lastName + '_' + firstName,
+                role: 'admin'
             });
 
             // save the user info
@@ -33,14 +34,14 @@ exports.register = (req, res) => {
                    });
 
                return res.status(201).json({
-                   message: 'User created successfully...!'
+                   message: 'Admin created successfully...!'
                });
             });
         });
 }
 
 /**
- * Method to login a user
+ * Login Method for admin
  * @param req
  * @param res
  */
@@ -52,7 +53,7 @@ exports.login = (req, res) => {
             if (error) return res.status(400).json({message: error.message});
 
             // check if the password is similar
-            if (user.authenticate(req.body.password)) {
+            if (user.authenticate(req.body.password) && user.role === 'admin') {
                 // generate a json web token that expires in an hour
                 const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET, {expiresIn: '1d'});
 
