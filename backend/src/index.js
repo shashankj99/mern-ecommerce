@@ -12,6 +12,7 @@ const mongoose = require('mongoose');
 // routes
 const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin/auth');
+const categoryRoutes = require('./routes/category');
 
 // bootstrap the server
 const app = express();
@@ -30,16 +31,12 @@ mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PA
    console.log(err.message);
 });
 
-// middleware to parse the body into json
-app.use(bodyParser.urlencoded({
-   extended: true
-}));
-
-app.use(bodyParser.json());
+app.use(express.json());
 
 // add /api prefix to the routes
 app.use('/api', authRoutes);
 app.use('/api', adminRoutes);
+app.use('/api', categoryRoutes);
 
 // listen to the port
 app.listen(process.env.PORT, () => {
