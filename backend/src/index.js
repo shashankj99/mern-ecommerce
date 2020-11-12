@@ -6,7 +6,6 @@
 // get all the libraries
 const express = require('express');
 const env = require('dotenv');
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 // routes

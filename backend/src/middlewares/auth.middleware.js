@@ -20,3 +20,19 @@ exports.auth = (req, res, next) => {
     // continue the request
     next();
 }
+
+/**
+ * Middleware to check whether the user is admin or not
+ * @param req
+ * @param res
+ * @param next
+ * @returns {any}
+ */
+exports.adminMiddleware = (req, res, next) => {
+    // check if the user is admin or not
+    if (req.user.role !== 'admin')
+        return res.status(400).json({message: 'Access Denied...!'});
+
+    // continue the request
+    next();
+}

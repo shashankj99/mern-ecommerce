@@ -55,7 +55,7 @@ exports.login = (req, res) => {
             // check if the password is similar
             if (user.authenticate(req.body.password) && user.role === 'admin') {
                 // generate a json web token that expires in an hour
-                const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET, {expiresIn: '1d'});
+                const token = jwt.sign({_id: user._id, role: user.role}, process.env.JWT_SECRET, {expiresIn: '1d'});
 
                 // destructure the user object
                 const {_id, firstName, lastName, email, role, fullName} = user;
